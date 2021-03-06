@@ -28,6 +28,18 @@ namespace _666foodDelivery.Controllers
             return View();
         }
 
+        public IActionResult AboutUs()
+        {
+            ViewData["Message"] = "Hello world lol";
+            ViewBag.Message = "Hi everyone";
+            return View();
+        }
+
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
