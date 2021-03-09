@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "_666foodDeliveryContextConnection"
+    },
+    "mssql2": {
+      "type": "mssql",
+      "connectionId": "_666foodDeliveryNewContext"
+    },
+    "secrets1": {
+      "type": "secrets"
+    },
+    "storage1": {
+      "type": "storage",
+      "connectionId": "666fooddeliverystorage"
+    },
+    "storage2": {
+      "type": "storage",
+      "connectionId": "_666foodDeliveryBlobConnection"
+    }
+  }
+}

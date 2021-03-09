@@ -1,0 +1,26 @@
+﻿@model IEnumerable<_666foodDelivery.Models.Food>
+
+@{
+    ViewData["Title"] = "Products";
+}
+
+<h2>Foods</h2>
+
+<div class="cards-container">
+    @foreach (var item in Model)
+    {
+        <div class="card">
+            <div class="card-img">
+                <img src=@Html.DisplayFor(model => item.BlobURL) alt=@Html.DisplayFor(model => item.FoodName) />
+            </div>
+            <h1>@Html.DisplayFor(model => item.FoodName)</h1>
+            <div class="card-body">
+                <h2>Price: @Html.DisplayFor(model => item.Price)</h2>
+                <h2>Ingredient: @Html.DisplayFor(model => item.Ingredient)</h2>
+                <form style="display: inline" asp-action="Details" asp-route-id="@item.ID">
+                    <button>Details</button>
+                </form>
+            </div>
+        </div>
+    }
+</div>
