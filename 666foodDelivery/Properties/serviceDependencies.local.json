@@ -16,6 +16,12 @@
       "type": "storage.azure",
       "connectionId": "666fooddeliverystorage",
       "secretStore": "LocalSecretsFile"
+    },
+    "storage2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/666fooddeliverystorage",
+      "type": "storage.azure",
+      "connectionId": "_666foodDeliveryBlobConnection",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }

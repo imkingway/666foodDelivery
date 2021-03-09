@@ -14,6 +14,10 @@
     "storage1": {
       "type": "storage",
       "connectionId": "666fooddeliverystorage"
+    },
+    "storage2": {
+      "type": "storage",
+      "connectionId": "_666foodDeliveryBlobConnection"
     }
   }
 }

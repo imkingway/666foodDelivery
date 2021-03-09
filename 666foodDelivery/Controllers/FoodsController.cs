@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using _666foodDelivery.Data;
 using _666foodDelivery.Models;
+using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.AspNetCore.Http;
 
 namespace _666foodDelivery.Views.Foods
 {
@@ -148,6 +153,29 @@ namespace _666foodDelivery.Views.Foods
         private bool FoodExists(int id)
         {
             return _context.Food.Any(e => e.ID == id);
+        }
+
+        private CloudBlobContainer GetCloudBlobContainer()
+        {
+            var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
+            IConfigurationRoot configurationRoot = builder.Build();
+            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(configurationRoot["ConnectionStrings:_666foodDeliveryBlobConnection"]);
+            CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+            CloudBlobContainer container = blobClient.GetContainerReference("kingway");
+
+            return container;
+        }
+
+        public async Task<IActionResult> UploadBlob(IFormFile files)
+        {
+            CloudBlobContainer cloud = GetCloudBlobContainer();
+            CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
+            await blob.UploadFromStreamAsync(files.OpenReadStream());
+
+            var blobUrl = blob.Uri.AbsoluteUri;
+            ViewData["BlobUrl"] = blobUrl;
+
+            return View("Create");
         }
     }
 }
