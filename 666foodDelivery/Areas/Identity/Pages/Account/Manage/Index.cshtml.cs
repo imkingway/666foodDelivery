@@ -33,6 +33,26 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+           
+            [DataType(DataType.Text)]
+            [Display(Name = "Full Name")]
+            [StringLength(100, ErrorMessage = "The number should be 6 - 100", MinimumLength = 6)]
+            public string Name { get; set; }
+
+            [Required(ErrorMessage = "Please key in your Date of Birth")]
+            [DataType(DataType.Date)]
+            [Display(Name = "Date-of-Birth")]
+            public DateTime DOB { get; set; }
+
+            [StringLength(100, ErrorMessage = "Address shout not be more than 100 words")]
+            [DataType(DataType.MultilineText)]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Display(Name = "Identification Number")]
+            public string IC_Passport_No { get; set; }
+
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
@@ -47,7 +67,11 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Name = user.Name,
+                DOB = user.DOB,
+                Address = user.Address,
+                IC_Passport_No = user.IC_Passport_No
             };
         }
 
@@ -86,6 +110,21 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account.Manage
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            if (Input.DOB != user.DOB)
+            {
+                user.DOB = Input.DOB;
+            }
+
+            if (Input.Address != user.Address)
+            {
+                user.Address = Input.Address;
+            }
+
+            if (Input.IC_Passport_No != user.IC_Passport_No)
+            {
+                user.IC_Passport_No = Input.IC_Passport_No;
             }
 
             await _signInManager.RefreshSignInAsync(user);
