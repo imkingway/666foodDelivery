@@ -81,10 +81,25 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                
+                var users = from m in _userManager.Users
+                           where m.Email.Equals(Input.Email)
+                           select m.User_Role;
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    
+                    //the first page foe user role once logging in 
+                    foreach (string User_Role in users)
+                    {
+                        if (String.IsNullOrEmpty(User_Role))
+                            return RedirectToAction("Index", "Home");
+                        else if (User_Role.Equals("User"))
+                            return RedirectToAction("Index", "Admin");
+                        else if (User_Role.Equals("Driver"))
+                            return RedirectToAction("Index", "Home");
+                    }
                 }
                 if (result.RequiresTwoFactor)
                 {

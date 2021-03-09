@@ -1,19 +1,19 @@
-﻿using System;
+﻿using _666foodDelivery.Areas.Identity.Data;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using _666foodDelivery.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
 namespace _666foodDelivery.Areas.Identity.Pages.Account
 {
@@ -37,6 +37,12 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
+        public List<SelectListItem> RoleSelectList { get; } = new List<SelectListItem> {
+            new SelectListItem {Selected = true, Text = "Select Role", Value = ""},
+            new SelectListItem {Selected = false, Text = "User", Value = "User"},
+            new SelectListItem {Selected = false, Text = "Driver", Value = "Driver"},
+        };
+
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -46,6 +52,11 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
 
         public class InputModel
         {
+            [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Username")]
+            public string Name { get; set; }
+
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -61,6 +72,9 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Display(Name = "Register As")]
+            public string User_Role { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -75,7 +89,14 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new _666foodDeliveryUser { UserName = Input.Email, Email = Input.Email };
+                var user = new _666foodDeliveryUser 
+                { 
+                    Name = Input.Name,
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    User_Role = Input.User_Role 
+                };
+
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
