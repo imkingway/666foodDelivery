@@ -3,13 +3,89 @@
     ViewData["Title"] = "AboutUs";
 }
 
-<h1>AboutUs</h1>
 
-<p>Hello World llllllllll</p>
-
-@if (ViewBag.Message != string.Empty)
-{
-    <script>alert("@ViewBag.Message")</script>
-}
-
-<p>@ViewData["Message"]</p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Add custom stylesheet here -->
+</head>
+<body>
+    <div class="ui vertical stripe segment" style="background-color: white;">
+        <center><h2>The Board of Directors</h2></center>
+    </div>
+    <div class="ui vertical stripe segment" style="background-color: white;">
+        <div class="ui three cards">
+            <div class="ui card">
+                <div class="ui slide dropright reveal image">
+                    <div class="visible content">
+                        <image class="ui fluid image" src="https://media-exp1.licdn.com/dms/image/C5603AQHidDuxdWIs5g/profile-displayphoto-shrink_200_200/0/1572671347170?e=1619049600&v=beta&t=wXVttYg5Tyx2kvKwXeh4pUuWRcSBlYdSeW0iF0OgVok">
+                    </div>
+                    <div class="hidden content">
+                        <image class="ui fluid image" src="https://scontent.fkul13-1.fna.fbcdn.net/v/t1.0-9/13015365_1083924828325764_1445499546432882045_n.jpg?_nc_cat=111&ccb=1-3&_nc_sid=f9d7a1&_nc_ohc=ELS73o3-gScAX83vJAG&_nc_ht=scontent.fkul13-1.fna&oh=e6ae4186b76ee9920eb06a301007c606&oe=6072A6B7">
+                    </div>
+                </div>
+                <div class="content">
+                    <h3>Cheif Operating Officer</h3>
+                    <p>
+                        Samson Goh
+                    </p>
+                    <p>
+                        Big body, muscle and handsome but powerless
+                    </p>
+                </div>
+            </div>
+            <div class="ui card">
+                <div class="ui slide dropright reveal image">
+                    <div class="visible content">
+                        <image class="ui fluid image" src="https://ch3301files.storage.live.com/y4mlNV9RoffWecwXpayG79rkOP7gcgpBHut-pEFMb4S77s_jmSbKjniLyB7fOJxxSL3si4K0pdeqHzjuJMs7tYhMF0ZSOeurSxTAv2p154N9UMlo6bsAwQh7zqLZW5sXUSfxg_VtPUpF7IsN7ty0VRiHLIlMB-i_tzyTfP9RXDG6fY5A-hupPkbBB9sG7iZmGGO?width=192&height=256&cropmode=none">
+                    </div>
+                    <div class="hidden content">
+                        <image class="ui fluid image" src="https://ch3301files.storage.live.com/y4mu_u24bSVUyHOqn2_iGg9-PDfMnjoKcRr5U6r7vlPsc2xyTDIjwcoYymlkUzO230347_pGo0mBWBKCp2kOnCaf2wFKHiSNI2nHaXcoOqdfZulejD7nPMkcJTA8Rprtz5dnzB_mlyBckmaI1hTsul79OwRet8IVr5HM85M3Kh5B8_oZe7KHRwcBjEcFWwtgnvO?width=192&height=256&cropmode=none">
+                    </div>
+                </div>
+                <div class="content">
+                    <h3>Chief Operating Officer</h3>
+                    <p>
+                        Lim King Way
+                    </p>
+                    <p>
+                        A senior executive tasked with overseeing the day-today administrative operation function and business
+                    </p>
+                </div>
+            </div>
+            <div class="ui card">
+                <div class="ui slide dropright reveal image">
+                    <div class="visible content">
+                        <image class="ui fluid image" src="https://pbs.twimg.com/profile_images/3058379030/78d95d855aee788fe32c39abbd20def0_400x400.jpeg">
+                    </div>
+                    <div class="hidden content">
+                        <image class="ui fluid image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvRrRPuPT8TCzSageFBUaDfhUeIoGmmuOQyw&usqp=CAU">
+                    </div>
+                </div>
+                <div class="content">
+                    <h3>Chief Technology Officer</h3>
+                    <p>
+                        Phea Jia Le
+                    </p>
+                    <p>
+                        Otaku boy. Loves neko chan and lives in anime world. 
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+    <style>
+        body {
+            background-image: url(https://image.freepik.com/free-vector/white-background-with-blue-tech-hexagon_1017-19366.jpg);
+            background-repeat: no-repeat;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</body>
+</html>
