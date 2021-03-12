@@ -4,20 +4,37 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Admin Login</h1>
+<head>
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Add custom stylesheet here -->
+</head>
 
-<div class="container">
-    @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
-    {
-        <label for="uname"><b>Username</b></label>
-        <input type="text" placeholder="Enter Username" name="username" required>
+<h1>Admin Login Page</h1>
 
-        <label for="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required>
-
-        <button type="submit">Login</button>
-    }
-    <label>
-        <input type="checkbox" checked="checked" name="remember"> Remember me
-    </label>
+<div class="ui vertically padded grid docs-example">
+    <div class="row" style="padding-bottom: 0px;">
+        <div class="sixteen wide column rendered-example collections-form-types-form-example-form" style="padding: 2rem;">
+            <form class="ui form">
+                @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
+                {
+                    <div class="field">
+                        <label>Username</label>
+                        <input type="text" placeholder="Enter Username" name="username" required>
+                    </div>
+                    <div class="field">
+                        <label>Password</label>
+                        <input type="password" placeholder="Enter Password" name="password" required>
+                    </div>
+                    <button type="submit" class="ui button">Login</button>
+                }
+            </form>
+        </div>
+    </div>
 </div>
+
+<div style="margin-bottom:350px;">
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>

@@ -6,18 +6,44 @@
 
 <h2>Foods</h2>
 
-<div class="cards-container">
-    @foreach (var item in Model)
-    {
-        <div class="card" style="height: 450px;width: 500px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);padding: 16px;text-align: center;background-color: #f1f1f1;float:left;">
-            <div class="card-img">
-                <img src=@Html.DisplayFor(model => item.BlobURL) alt=@Html.DisplayFor(model => item.FoodName) style="width:230px; height: 200px; padding-top: 10px"/>
-            </div>
-            <h1>@Html.DisplayFor(model => item.FoodName)</h1>
-            <div class="card-body">
-                <h2>Price: @Html.DisplayFor(model => item.Price)</h2>
-                <h2>Ingredient: @Html.DisplayFor(model => item.Ingredient)</h2>
+
+<head>
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Add custom stylesheet here -->
+</head>
+
+<div>
+    <div id="types-card" style="margin-top: 1rem; ">
+        <div class="ui vertically stripe segment">
+            <div class="ui three cards">
+               @foreach (var item in Model)
+                {
+                    <div class="ui card">
+                        <div class="image">
+                            <img src=@Html.DisplayFor(model => item.BlobURL) alt=@Html.DisplayFor(model => item.FoodName)>
+                        </div>
+                        <div class="content">
+                            <div class="meta">
+                                <span class="date">
+                                    @Html.DisplayFor(model => item.FoodProducedDate)
+                                </span>
+                            </div>
+                            <div class="ui divider"></div>
+                            <div class="header">
+                                @Html.DisplayFor(model => item.FoodName)
+                            </div>
+                            <div class="description">
+                                <p>Price: @Html.DisplayFor(model => item.Price)</p>
+                                <p>Ingredient: @Html.DisplayFor(model => item.Ingredient)</p>
+                            </div>
+                        </div>
+                    </div>
+                        }
             </div>
         </div>
-    }
+    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
