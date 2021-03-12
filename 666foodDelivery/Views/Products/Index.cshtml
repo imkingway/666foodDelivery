@@ -17,6 +17,9 @@
             <div class="card-body">
                 <h2>Price: @Html.DisplayFor(model => item.Price)</h2>
                 <h2>Ingredient: @Html.DisplayFor(model => item.Ingredient)</h2>
+                <form style="display: inline" asp-action="Details" asp-route-id="@item.ID">
+                    <button>Details</button>
+                </form>
             </div>
         </div>
     }
