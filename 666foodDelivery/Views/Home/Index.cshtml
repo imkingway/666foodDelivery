@@ -2,9 +2,63 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-    <form style=" background: url('@Url.Content("~/images/mainbackground.jpg")');"></form>
-</div>
-    
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Semantic UI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <!-- Add custom stylesheet here -->
+</head>
+<body>
+
+    <div class="ui inverted vertical masthead center aligned segment" style="height: 360px">
+        <div class="ui text container" style="margin-top: 90px">
+            <h1 class="ui inverted header">
+                666 Food Delivery
+            </h1>
+            <h2>Good Food, Good Mood</h2>
+            <div class="ui huge primary button">
+                <a style="color: white" id="register" asp-area="Identity" asp-page="/Account/Login">Order Now</a>
+                <i class="right arrow icon">
+                </i>
+            </div>
+        </div>
+    </div>
+    <div class="ui divider"></div>
+    <div class="ui vertical stripe segment" style="background-color: white;">
+        <div class="ui middle aligned stackable grid container" style="height: 300px">
+            <div class="row" style="margin-left: 20px">
+                <div class="eight wide column">
+                    <h3 class="ui header">What is 666 Food Delivery</h3>
+                    <p>
+                        foodpanda is Malaysia's most convenient online food
+                        ordering site, connecting people with the best restaurants
+                        around them, in Kuala Lumpur! We believe food is a pleasure
+                        and food ordering should be fast and definitely fun experience.
+                    </p>
+                    <h3 class="ui header">Your favourite food delivered hot and fresh</h3>
+                    <p>
+                        Great news! 666FoodDelivery is now in the Grab app,
+                        creating a more seamless experience with your
+                        daily needs in the everyday everything app.<br>
+                        Satisfy your cravings by getting the food you
+                        love from your favourite restaurants.
+                        666FoodDelivery is now available in Klang Vally
+                    </p>
+                </div>
+                <div class="six wide right floated column">
+                    <img src="https://i.pinimg.com/originals/1f/8d/29/1f8d29d650824a621ac2bae6f9dfd393.jpg" class="ui large bordered rounded image" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="center aligned column">
+                    <a class="ui huge button" asp-controller="Home" asp-action="AboutUs">Check Here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.js"></script>
+</body>
+</html>
+
