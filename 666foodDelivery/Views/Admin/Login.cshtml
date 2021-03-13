@@ -5,27 +5,22 @@
 }
 
 <h1>Admin Login Page</h1>
-
-<div class="ui vertically padded grid docs-example">
-    <div class="row" style="padding-bottom: 0px;">
-        <div class="sixteen wide column rendered-example collections-form-types-form-example-form" style="padding: 2rem;">
-            <form class="ui form">
-                @using (Html.BeginForm("Login", "Admin", FormMethod.Post))
-                {
-                    <div class="field">
-                        <label>Username</label>
-                        <input type="text" placeholder="Enter Username" name="username" required>
-                    </div>
-                    <div class="field">
-                        <label>Password</label>
-                        <input type="password" placeholder="Enter Password" name="password" required>
-                    </div>
-                    <button type="submit" class="ui button">Login</button>
-                }
-            </form>
+    <div class="ui vertically padded grid docs-example">
+        <div class="row" style="padding-bottom: 0px;">
+            <div class="sixteen wide column rendered-example collections-form-types-form-example-form" style="padding: 2rem;">
+                <form id="Foods" method="post" class="ui form">
+                        <div class="field">
+                            <label>Username</label>
+                            <input type="text" placeholder="Enter Username" name="username" required>
+                        </div>
+                        <div class="field">
+                            <label>Password</label>
+                            <input type="password" placeholder="Enter Password" name="password" required>
+                        </div>
+                        <button type="submit" class="ui button">Login</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-
-<div style="margin-bottom:350px;">
-</div>
+    <div style="margin-bottom:350px;">
+    </div>
