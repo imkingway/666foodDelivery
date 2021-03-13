@@ -14,17 +14,15 @@ namespace _666foodDelivery.Controllers
             return View();
         }
 
-        public IActionResult Login(IFormCollection formCollection)
+        public ActionResult Login(string username, string password)
         {
-            string email = Convert.ToString(formCollection["username"]);
-            string Password = Convert.ToString(formCollection["password"]);
-            if (email == "admin" && Password == "admin")
+            if (username == "admin" && password == "admin")
             {
                 return RedirectToAction("Index");
             }
             else
             {
-                ViewBag.Message = "Please enter valid email and password";
+                ViewBag.Message = "Please enter valid username and password";
             }
             return View();
         }
