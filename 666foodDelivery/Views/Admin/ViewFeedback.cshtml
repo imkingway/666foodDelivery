@@ -1,15 +1,49 @@
-﻿
+﻿@model IEnumerable<_666foodDelivery.Models.Feedback>
+
 @{
-    Layout = null;
+    ViewData["Title"] = "ViewFeedback";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>ViewFeedback</title>
-</head>
-<body>
-</body>
-</html>
+<section>
+    <div class="container">
+        <h1>View Feedback</h1>
+        <br />
+        <div class="card" >
+            <div class="card-body">
+                <div>
+                    <table class="table table-bordered" cellspacing="5">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Customer Name
+                                </th>
+                                <th>
+                                    Feedback
+                                </th>
+                                <th>
+                                    Feedback Category
+                                </th>
+                                <th>
+                                    Timestamp
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>@item.CustomerName</td>
+                                    <td>@item.RowKey</td>
+                                    <td>@item.FeedbackCategory</td>
+                                    <td>@item.Timestamp</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <a class="card-link" asp-controller="Admin" asp-action="Index">Back to Index</a> 
+            </div>
+        </div>
+    </div>
+</section>

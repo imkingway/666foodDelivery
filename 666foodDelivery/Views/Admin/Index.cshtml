@@ -1,13 +1,48 @@
 ﻿
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<head>
+    <style>
+        .container {
+            position: relative;
+            width: 50%;
+        }
+        .container img {
+            width: 100%;
+            height: auto;
+        }
+        .container .btn {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            background-color: #f1f1f1;
+            color: white;
+            font-size: 16px;
+            padding: 12px 24px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .container .btn:hover {
+            background-color: black;
 
-<nav class="nav-bar">
-    <div class="nav-links-admin">
-        <li><a asp-area="" asp-controller="Foods" asp-action="Index">Add Food</a></li>
+        }
+        .container .btn:hover .margin-right {
+            margin-right: 100px;
+        }
+    </style>
+</head>
+
+<div class="container">
+    <img src="https://i.pinimg.com/originals/1f/8d/29/1f8d29d650824a621ac2bae6f9dfd393.jpg" class="ui large bordered rounded image" />
+    <div class="btn margin-right" >
+        <a asp-controller="Foods" asp-action="Index">Add Food</a>
     </div>
-</nav>
+    <div class="btn">
+        <a asp-controller="Admin" asp-action="ViewFeedback">View Feedback</a>
+    </div>
+</div>
