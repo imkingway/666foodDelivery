@@ -5,11 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<form method="post" class="ui form" action="SearchByType">
+    <p>Enter Feedback Category: <input type="text" value="" name="FeedbackCategory" /></p>
+    <p><input type="submit" value="Search" name="submit" class="ui button"/></p>
+</form>
+<hr />
+
 <section>
     <div class="container">
         <h1>View Feedback</h1>
         <br />
-        <div class="card" >
+        <div class="card">
             <div class="card-body">
                 <div>
                     <table class="table table-bordered" cellspacing="5">
@@ -42,7 +48,7 @@
                         </tbody>
                     </table>
                 </div>
-                <a class="card-link" asp-controller="Admin" asp-action="Index">Back to Index</a> 
+                <a class="card-link" asp-controller="Admin" asp-action="Index">Back to Index</a>
             </div>
         </div>
     </div>

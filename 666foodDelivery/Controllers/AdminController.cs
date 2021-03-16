@@ -32,13 +32,19 @@ namespace _666foodDelivery.Controllers
             return View();
         }
 
-        public ActionResult ViewFeedback()
+        public CloudTable GetStorageInfo()
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
             IConfigurationRoot configure = builder.Build();
             CloudStorageAccount objectaccount = CloudStorageAccount.Parse(configure["ConnectionStrings:_666foodDeliveryBlobConnection"]);
             CloudTableClient tableclient = objectaccount.CreateCloudTableClient();
             CloudTable table = tableclient.GetTableReference("feedback");
+            return table;
+        }
+
+        public ActionResult ViewFeedback()
+        {
+            CloudTable table = GetStorageInfo();
 
             List<Feedback> feedback = new List<Feedback>();
             try
@@ -63,6 +69,40 @@ namespace _666foodDelivery.Controllers
             }
 
             return View(feedback);
+        }
+
+        public ActionResult SearchByType(string FeedbackCategory)
+        {
+            CloudTable table = GetStorageInfo();
+
+            try
+            {
+                TableQuery<Feedback> query = new TableQuery<Feedback>().Where(TableQuery.GenerateFilterCondition("FeedbackCategory", QueryComparisons.Equal, FeedbackCategory));
+                List<Feedback> customers = new List<Feedback>();
+                TableContinuationToken token = null;
+
+                do
+                {
+                    TableQuerySegment<Feedback> result = table.ExecuteQuerySegmentedAsync(query, token).Result;
+                    token = result.ContinuationToken;
+
+                    foreach (Feedback customer in result.Results)
+                    {
+                        customers.Add(customer);
+                    }
+                }
+                while (token != null);
+
+                if (customers.Count != 0)
+                {
+                    return View("ViewFeedback", customers);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return RedirectToAction("ViewFeedback", "Admin");
         }
     }
 }
