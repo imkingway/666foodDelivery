@@ -7,8 +7,15 @@
 
 <h1>Edit</h1>
 
-<h4>Food</h4>
+<center>
+    <div class="ui card">
+        <div class="image" style="width:inherit; height:inherit">
+            <img src=@Html.DisplayFor(model => model.BlobURL)>
+        </div>
+    </div>
+</center>
 <hr />
+
 <div class="row">
     <div class="col-md-4">
         <form method="post" enctype="multipart/form-data" asp-controller="Foods" asp-action="EditImage">
