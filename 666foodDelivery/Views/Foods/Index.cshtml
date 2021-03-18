@@ -10,7 +10,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-bordered content-table" cellspacing="5">
     <thead>
         <tr>
             <th>
@@ -58,3 +58,42 @@
 }
     </tbody>
 </table>
+
+<style>
+    * {
+        font-family: sans-serif
+    }
+
+    .content-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        min-width: 400px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+    }
+
+        .content-table thead tr {
+            background-color: #007bff;
+            color: #ffffff;
+            text-align: center;
+            font-weight: bold
+        }
+
+        .content-table th,
+        .content-table td {
+            padding: 12px 15px;
+        }
+
+        .content-table tbody tr {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .content-table tbody tr:nth-of-type(even) {
+                background-color: #f3f3f3
+            }
+
+            .content-table tbody tr:last-of-type {
+                border-bottom: 3px solid #007bff
+            }
+</style>
