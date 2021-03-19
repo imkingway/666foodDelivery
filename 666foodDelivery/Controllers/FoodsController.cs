@@ -178,7 +178,7 @@ namespace _666foodDelivery.Views.Foods
             IConfigurationRoot configurationRoot = builder.Build();
             CloudStorageAccount storageAccount = CloudStorageAccount.Parse(configurationRoot["ConnectionStrings:_666foodDeliveryBlobConnection"]);
             CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-            CloudBlobContainer container = blobClient.GetContainerReference("kingway");
+            CloudBlobContainer container = blobClient.GetContainerReference("images");
 
             return container;
         }
