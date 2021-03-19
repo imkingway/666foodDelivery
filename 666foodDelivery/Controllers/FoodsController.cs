@@ -186,20 +186,51 @@ namespace _666foodDelivery.Views.Foods
         public async Task<IActionResult> UploadBlob(IFormFile files)
         {
             CloudBlobContainer cloud = GetCloudBlobContainer();
-            CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
-            await blob.UploadFromStreamAsync(files.OpenReadStream());
-
-            var blobUrl = blob.Uri.AbsoluteUri;
-            ViewData["BlobUrl"] = blobUrl;
-
+            if (files != null)
+            {
+                if (Path.GetExtension(files.FileName).Equals(".jpg") || Path.GetExtension(files.FileName).Equals(".png"))
+                {
+                    CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
+                    await blob.UploadFromStreamAsync(files.OpenReadStream());
+                    var blobUrl = blob.Uri.AbsoluteUri;
+                    ViewData["BlobUrl"] = blobUrl;
+                }
+                else
+                {
+                    TempData["Files"] = "Please choose an image.";
+                }
+            }
+            else
+            {
+                TempData["Files"] = "Please choose an image.";
+            }
             return View("Create");
         }
 
         public async Task<IActionResult> EditImage(IFormFile files, Food food)
         {
             CloudBlobContainer cloud = GetCloudBlobContainer();
-            CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
 
+            if (files != null)
+            {
+                if (Path.GetExtension(files.FileName).Equals(".jpg") || Path.GetExtension(files.FileName).Equals(".png"))
+                {
+                    CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
+
+                    //upload new image
+                    await blob.UploadFromStreamAsync(files.OpenReadStream());
+                    var blobUrl = blob.Uri.AbsoluteUri;
+                    ViewData["BlobUrl"] = blobUrl;
+                }
+                else
+                {
+                    TempData["Files"] = "Please choose an image.";
+                }
+            }
+            else
+            {
+                TempData["Files"] = "Please choose an image.";
+            }
             int id = int.Parse(Request.Form["imageProductId"]);
             var foods = await _context.Food.FirstOrDefaultAsync(m => m.ID == id);
             food.ID = foods.ID;
@@ -208,12 +239,6 @@ namespace _666foodDelivery.Views.Foods
             food.Type = foods.Type;
             food.Price = foods.Price;
             food.Ingredient = foods.Ingredient;
-
-            //upload new image
-            await blob.UploadFromStreamAsync(files.OpenReadStream());
-
-            var blobUrl = blob.Uri.AbsoluteUri;
-            ViewData["BlobUrl"] = blobUrl;
 
             return View("Edit", food);
         }
