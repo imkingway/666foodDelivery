@@ -8,9 +8,6 @@
       "type": "mssql.local",
       "connectionId": "_666foodDeliveryNewContext"
     },
-    "secrets1": {
-      "type": "secrets.user"
-    },
     "storage1": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/666fooddeliverystorage",
       "type": "storage.azure",
@@ -22,6 +19,12 @@
       "type": "storage.azure",
       "connectionId": "_666foodDeliveryBlobConnection",
       "secretStore": "LocalSecretsFile"
+    },
+    "secrets1": {
+      "type": "secrets",
+      "connectionId": "",
+      "suggestion": "true",
+      "ignored": "true"
     }
   }
 }

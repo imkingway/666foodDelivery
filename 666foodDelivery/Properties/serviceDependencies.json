@@ -8,16 +8,13 @@
       "type": "mssql",
       "connectionId": "_666foodDeliveryNewContext"
     },
-    "secrets1": {
-      "type": "secrets"
+    "storage2": {
+      "type": "storage",
+      "connectionId": "_666foodDeliveryBlobConnection"
     },
     "storage1": {
       "type": "storage",
       "connectionId": "666fooddeliverystorage"
-    },
-    "storage2": {
-      "type": "storage",
-      "connectionId": "_666foodDeliveryBlobConnection"
     }
   }
 }
