@@ -102,6 +102,20 @@ namespace _666foodDelivery.Views.Foods
             {
                 try
                 {
+                    bool check = false;
+                    var foodlist = _context.Food.AsNoTracking().ToList();
+                    foreach (var url in foodlist)
+                    {
+                        if (url.ID != id)
+                        {
+                            if (url.BlobURL == food.BlobURL)
+                            {
+                                check = true;
+                                break;
+                            }
+                        }
+                    }
+
                     //delete old image
                     var foods = await _context.Food.AsNoTracking().FirstOrDefaultAsync(m => m.ID == id);
                     CloudBlobContainer container = GetCloudBlobContainer();
@@ -109,11 +123,14 @@ namespace _666foodDelivery.Views.Foods
                     var temp = new Uri(blobURL).LocalPath;
                     string filename = temp.Remove(0, temp.IndexOf('/', 1) + 1);
                     CloudBlockBlob blobs = container.GetBlockBlobReference(filename);
-                    if (!food.BlobURL.Equals(foods.BlobURL))
+                    if (check == false)
                     {
-                        await blobs.DeleteIfExistsAsync();
+                        if (!food.BlobURL.Equals(foods.BlobURL))
+                        {
+                            await blobs.DeleteIfExistsAsync();
+                        }
                     }
-                    
+
                     _context.Update(food);
                     await _context.SaveChangesAsync();
                 }
@@ -218,7 +235,9 @@ namespace _666foodDelivery.Views.Foods
 
             if (files != null)
             {
-                if (Path.GetExtension(files.FileName).Equals(".jpg") || Path.GetExtension(files.FileName).Equals(".png"))
+                if (Path.GetExtension(files.FileName).Equals(".jpeg") ||
+                    Path.GetExtension(files.FileName).Equals(".jpg") ||
+                    Path.GetExtension(files.FileName).Equals(".png"))
                 {
                     CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
 
