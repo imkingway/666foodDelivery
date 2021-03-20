@@ -188,7 +188,9 @@ namespace _666foodDelivery.Views.Foods
             CloudBlobContainer cloud = GetCloudBlobContainer();
             if (files != null)
             {
-                if (Path.GetExtension(files.FileName).Equals(".jpg") || Path.GetExtension(files.FileName).Equals(".png"))
+                if (Path.GetExtension(files.FileName).Equals(".jpeg") ||
+                    Path.GetExtension(files.FileName).Equals(".jpg") ||
+                    Path.GetExtension(files.FileName).Equals(".png"))
                 {
                     CloudBlockBlob blob = cloud.GetBlockBlobReference(files.FileName);
                     await blob.UploadFromStreamAsync(files.OpenReadStream());
