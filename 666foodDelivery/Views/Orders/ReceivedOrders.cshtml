@@ -1,10 +1,9 @@
 ﻿
 @{
-    ViewData["Title"] = "RecievedMessage";
+    ViewData["Title"] = "Received Orders";
 }
 
-<h1>Admin Approve</h1>
-
+<h1>Available Orders</h1>
 
 <table border="1">     
     <tr>
@@ -14,8 +13,8 @@
         <th>PhoneNumber</th>
         <th>FoodName</th>
         <th>DeliverTime</th>
-        <th>quantity</th>
-        <th>Approve</th>
+        <th>Quantity</th>
+        <th>Accept</th>
     </tr>     
     @{int i = 0;}     
     @foreach (var order in ViewBag.messages)
@@ -28,8 +27,9 @@
     <td>@order.DeliverTime</td>
     <td>@order.quantity</td>
     <td>
-        <a asp-route-sequence="@ViewBag.sequence[i]" asp-controller="Orders" asp-action="Reci">
-            <button>Approve</button>
+       
+        <a asp-route-sequence="@ViewBag.sequence[i]" asp-route-customerData="@order"  asp-controller="Orders" asp-action="Approve">
+            <button>Accept Orders</button>
         </a>
     </td>
 </tr>i++;

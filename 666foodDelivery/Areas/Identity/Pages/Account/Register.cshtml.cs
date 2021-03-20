@@ -39,7 +39,7 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
 
         public List<SelectListItem> RoleSelectList { get; } = new List<SelectListItem> {
             new SelectListItem {Selected = true, Text = "Select Role", Value = ""},
-            new SelectListItem {Selected = false, Text = "User", Value = "User"},
+            new SelectListItem {Selected = false, Text = "Customer", Value = "Customer"},
             new SelectListItem {Selected = false, Text = "Driver", Value = "Driver"},
         };
 

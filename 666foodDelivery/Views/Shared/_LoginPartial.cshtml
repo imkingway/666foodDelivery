@@ -16,7 +16,7 @@
             <li class="nav-item">
                 <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)</a>
             </li>
-            if (User_Role == "User")
+            if (User_Role == "Customer")
             {
                 //user navigation bar
                 <li class="nav-item">
@@ -30,7 +30,7 @@
             {
                 //driver navigation bar
                 <li class="nav-item">
-                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="RecievedMessage">View Order</a>
+                    <a class="nav-link text-dark" asp-area="" asp-controller="Orders" asp-action="ReceivedOrders">View Order</a>
                 </li>
             }
             <li class="nav-item">

@@ -11,14 +11,22 @@ using Microsoft.Azure.ServiceBus.Management;
 using _666foodDelivery.Models;
 using Newtonsoft.Json;
 using Microsoft.Azure.ServiceBus.Core;
+using _666foodDelivery.Data;
 
 namespace _666foodDelivery.Views.Orders_SB
 {
+
     public class OrdersController : Controller
     {
         const string ServiceBusConnectionString = "Endpoint=sb://fooddelivery666-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=HYNGfz8LyamgvCTuRQbiRoaZr3oWzrI2DdRp2ZPtHWE=";
         const string QueueName = "foodorder";
 
+        private readonly _666foodDeliveryNewContext _context;
+
+        public OrdersController(_666foodDeliveryNewContext _context)
+        {
+            this._context = _context;
+        }
 
         public async Task<IActionResult> Index()
         {
@@ -64,7 +72,7 @@ namespace _666foodDelivery.Views.Orders_SB
             CreateQueueFunctionAsync().GetAwaiter().GetResult();
         }
 
-        public async Task<ActionResult> RecievedMessage()
+        public async Task<ActionResult> ReceivedOrders()
         {
             var managementClient = new ManagementClient(ServiceBusConnectionString);
             var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
@@ -87,11 +95,40 @@ namespace _666foodDelivery.Views.Orders_SB
             
             ViewBag.sequence = sequence;
             ViewBag.messages = messages;
+
             return View();
         }
 
-        public async Task<ActionResult> Approve(long sequence)
+        public async Task<ActionResult> Approve(long sequence, Order customerData)
         {   
+            //connect to the same queue             
+            var managementClient = new ManagementClient(ServiceBusConnectionString);
+            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            //receive the selected message             
+            MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
+            Order result = null;
+            for (int i = 0; i < queue.MessageCount; i++)
+            {
+                Message message = await messageReceiver.ReceiveAsync();
+                string token = message.SystemProperties.LockToken;
+                //to find the selected message - read and remove from the queue                 
+                if (message.SystemProperties.SequenceNumber == sequence)
+                {
+                    result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));               
+                    await messageReceiver.CompleteAsync(token);
+                    break;
+                }
+                
+            }
+
+            Console.Write(result);
+
+
+            return View();
+        }
+
+        public async Task<ActionResult> Job(long sequence)
+        {
             //connect to the same queue             
             var managementClient = new ManagementClient(ServiceBusConnectionString);
             var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
@@ -110,7 +147,7 @@ namespace _666foodDelivery.Views.Orders_SB
                     break;
                 }
             }
-            return RedirectToAction("Approve", "Orders");
+            return View();
         }
     }
 }

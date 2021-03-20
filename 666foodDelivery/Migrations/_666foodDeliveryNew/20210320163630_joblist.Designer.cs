@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using _666foodDelivery.Data;
 
 namespace _666foodDelivery.Migrations._666foodDeliveryNew
 {
     [DbContext(typeof(_666foodDeliveryNewContext))]
-    partial class _666foodDeliveryNewContextModelSnapshot : ModelSnapshot
+    [Migration("20210320163630_joblist")]
+    partial class joblist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

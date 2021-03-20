@@ -3,7 +3,7 @@
     ViewData["Title"] = "Approve";
 }
 
-<h1>Driver Approve</h1>
+<h1>Ongoing Order</h1>
 
 
 <table border="1">
@@ -29,7 +29,7 @@
             <td>@order.DeliverTime</td>
             <td>@order.quantity</td>
             <td>
-                <a asp-route-sequence="@ViewBag.sequence[i]" asp-controller="Orders" asp-action="Approve">
+                <a asp-route-sequence="@ViewBag.sequence[i]" asp-controller="Orders" asp-action="ReceivedOrders">
                     <button>Approve</button>
                 </a>
             </td>

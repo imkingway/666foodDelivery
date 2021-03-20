@@ -26,9 +26,5 @@ namespace _666foodDelivery.Controllers
         {
             return View();
         }
-
-        public IActionResult Samson() {
-            return View();
-        }
     }
 }

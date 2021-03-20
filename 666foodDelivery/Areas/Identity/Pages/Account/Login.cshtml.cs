@@ -96,7 +96,7 @@ namespace _666foodDelivery.Areas.Identity.Pages.Account
                         if (String.IsNullOrEmpty(User_Role))
                             return RedirectToAction("Index", "Home");
                         else if (User_Role.Equals("Customer"))
-                            return RedirectToAction("Index", "Customer");
+                            return RedirectToAction("Index", "Orders");
                         else if (User_Role.Equals("Driver"))
                             return RedirectToAction("Index", "Driver");
                     }
