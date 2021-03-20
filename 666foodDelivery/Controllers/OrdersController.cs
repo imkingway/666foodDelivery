@@ -1,155 +1,116 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using _666foodDelivery.Data;
+using Microsoft.Azure.ServiceBus;
+using Microsoft.Azure.ServiceBus.Management;
 using _666foodDelivery.Models;
+using Newtonsoft.Json;
+using Microsoft.Azure.ServiceBus.Core;
 
-namespace _666foodDelivery.Views.Orders
+namespace _666foodDelivery.Views.Orders_SB
 {
     public class OrdersController : Controller
     {
-        private readonly _666foodDeliveryNewContext _context;
+        const string ServiceBusConnectionString = "Endpoint=sb://fooddelivery666-servicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=HYNGfz8LyamgvCTuRQbiRoaZr3oWzrI2DdRp2ZPtHWE=";
+        const string QueueName = "foodorder";
 
-        public OrdersController(_666foodDeliveryNewContext context)
-        {
-            _context = context;
-        }
 
-        // GET: Orders
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Order.ToListAsync());
-        }
-
-        // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
-        }
-
-        // GET: Orders/Create
-        public IActionResult Create()
-        {
-            ViewData["FoodName"] = new SelectList(_context.Food, "FoodName", "FoodName");
+            var managementClient = new ManagementClient(ServiceBusConnectionString);
+            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            ViewBag.MessageCount = queue.MessageCount;
             return View();
         }
 
-        // POST: Orders/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CustomerName,Address,PhoneNumber,FoodName,DeliverTime,quantity,notes")] Order order)
+        public async Task<ActionResult> Index(Order order)
         {
+            QueueClient queue = new QueueClient(ServiceBusConnectionString, QueueName);
             if (ModelState.IsValid)
             {
-                _context.Add(order);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["FoodName"] = new SelectList(_context.Food, "FoodName", "FoodName", order.FoodName);
-            return View(order);
-        }
-
-        // GET: Orders/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-            return View(order);
-        }
-
-        // POST: Orders/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CustomerName,Address,PhoneNumber,FoodName,DeliverTime,quantity,notes")] Order order)
-        {
-            if (id != order.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
+                var orderJSON = JsonConvert.SerializeObject(order);
+                var message = new Message(Encoding.UTF8.GetBytes(orderJSON))
                 {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
+                    MessageId = Guid.NewGuid().ToString(),
+                    ContentType = "application/json"
+                };
+                await queue.SendAsync(message);
+                return RedirectToAction("Index", "Orders", new { });
+            }
+            return View(order);
+        }
+
+        private static async Task CreateQueueFunctionAsync()
+        {
+            var managementClient = new ManagementClient(ServiceBusConnectionString);
+            bool queueExists = await managementClient.QueueExistsAsync(QueueName);
+            if (!queueExists)
+            {
+                QueueDescription qd = new QueueDescription(QueueName);
+                qd.MaxSizeInMB = 1024; qd.MaxDeliveryCount = 3;
+                await managementClient.CreateQueueAsync(qd);
+            }
+        }
+
+        public static void Initialize()
+        {
+            CreateQueueFunctionAsync().GetAwaiter().GetResult();
+        }
+
+        public async Task<ActionResult> RecievedMessage()
+        {
+            var managementClient = new ManagementClient(ServiceBusConnectionString);
+            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            List<Order> messages = new List<Order>();
+            List<long> sequence = new List<long>();
+            MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
+            try
+            {
+                for (int i = 0; i < queue.MessageCount; i++)
                 {
-                    if (!OrderExists(order.ID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    Message message = await messageReceiver.PeekAsync();
+                    Order result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
+                    sequence.Add(message.SystemProperties.SequenceNumber);
+                    messages.Add(result);
                 }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(order);
-        }
-
-        // GET: Orders/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
+            } catch(Exception ex)
             {
-                return NotFound();
+                throw ex;
             }
+            
+            ViewBag.sequence = sequence;
+            ViewBag.messages = messages;
+            return View();
+        }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (order == null)
+        public async Task<ActionResult> Approve(long sequence)
+        {   
+            //connect to the same queue             
+            var managementClient = new ManagementClient(ServiceBusConnectionString);
+            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            //receive the selected message             
+            MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
+            Order result = null;
+            for (int i = 0; i < queue.MessageCount; i++)
             {
-                return NotFound();
+                Message message = await messageReceiver.ReceiveAsync();
+                string token = message.SystemProperties.LockToken;
+                //to find the selected message - read and remove from the queue                 
+                if (message.SystemProperties.SequenceNumber == sequence)
+                {
+                    result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
+                    await messageReceiver.CompleteAsync(token);
+                    break;
+                }
             }
-
-            return View(order);
-        }
-
-        // POST: Orders/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var order = await _context.Order.FindAsync(id);
-            _context.Order.Remove(order);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool OrderExists(int id)
-        {
-            return _context.Order.Any(e => e.ID == id);
+            return RedirectToAction("Approve", "Orders");
         }
     }
 }

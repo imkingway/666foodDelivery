@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Approve";
+}
+
+<h1>Driver Approve</h1>
+
+
+<table border="1">
+    <tr>
+        <th>No.</th>
+        <th>Customer Name</th>
+        <th>Address</th>
+        <th>PhoneNumber</th>
+        <th>FoodName</th>
+        <th>DeliverTime</th>
+        <th>quantity</th>
+        <th>Aprove</th>
+    </tr>
+    @{int i = 0;}
+    @foreach (var order in ViewBag.messages)
+    {
+        <tr>
+            <td>@ViewBag.sequence[i]</td>
+            <td>@order.CustomerName</td>
+            <td>@order.Address</td>
+            <td>@order.PhoneNumber</td>
+            <td>@order.FoodName</td>
+            <td>@order.DeliverTime</td>
+            <td>@order.quantity</td>
+            <td>
+                <a asp-route-sequence="@ViewBag.sequence[i]" asp-controller="Orders" asp-action="Approve">
+                    <button>Approve</button>
+                </a>
+            </td>
+        </tr>
+i++;
+    }
+</table>

@@ -15,6 +15,5 @@ namespace _666foodDelivery.Data
         }
 
         public DbSet<_666foodDelivery.Models.Food> Food { get; set; }
-        public DbSet<_666foodDelivery.Models.Order> Order { get; set; }
     }
 }

@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/666fooddelivery/databases/666foodDelivery",
+      "type": "mssql.azure",
+      "connectionId": "_666foodDeliveryContextConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "mssql2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/666fooddelivery/databases/666foodDelivery",
+      "type": "mssql.azure",
+      "connectionId": "_666foodDeliveryNewContext",
+      "secretStore": "AzureAppSettings"
+    },
+    "storage2": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/fooddeliverystorage",
+      "type": "storage.azure",
+      "connectionId": "_666foodDeliveryBlobConnection",
+      "secretStore": "AzureAppSettings"
+    },
+    "storage1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Storage/storageAccounts/666fooddeliverystorage",
+      "type": "storage.azure",
+      "connectionId": "666fooddeliverystorage",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
