@@ -12,6 +12,7 @@ using _666foodDelivery.Models;
 using Newtonsoft.Json;
 using Microsoft.Azure.ServiceBus.Core;
 using _666foodDelivery.Data;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace _666foodDelivery.Views.Orders_SB
 {
@@ -33,12 +34,17 @@ namespace _666foodDelivery.Views.Orders_SB
             var managementClient = new ManagementClient(ServiceBusConnectionString);
             var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
             ViewBag.MessageCount = queue.MessageCount;
+
+            List<Food> food = new List<Food>();
+            food = (from c in _context.Food select c).ToList();
+            food.Insert(0, new Food { ID = 0, FoodName = "---Select A Food---" });
+            ViewBag.message = food;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(Order order)
+        public async Task<ActionResult> Index([Bind("CustomerName, Address, PhoneNumber, FoodName, DeliverTime, Quantity")]Order order)
         {
             QueueClient queue = new QueueClient(ServiceBusConnectionString, QueueName);
             if (ModelState.IsValid)
@@ -79,8 +85,6 @@ namespace _666foodDelivery.Views.Orders_SB
             List<Order> messages = new List<Order>();
             List<long> sequence = new List<long>();
             MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
-            try
-            {
                 for (int i = 0; i < queue.MessageCount; i++)
                 {
                     Message message = await messageReceiver.PeekAsync();
@@ -88,11 +92,6 @@ namespace _666foodDelivery.Views.Orders_SB
                     sequence.Add(message.SystemProperties.SequenceNumber);
                     messages.Add(result);
                 }
-            } catch(Exception ex)
-            {
-                throw ex;
-            }
-            
             ViewBag.sequence = sequence;
             ViewBag.messages = messages;
 

@@ -16,10 +16,9 @@ namespace _666foodDelivery.Migrations._666foodDeliveryNew
                     CustomerName = table.Column<string>(nullable: false),
                     Address = table.Column<string>(nullable: false),
                     PhoneNumber = table.Column<string>(nullable: false),
-                    FoodName = table.Column<string>(nullable: false),
+                    FoodID = table.Column<int>(nullable: false),
                     DeliverTime = table.Column<DateTime>(nullable: false),
-                    quantity = table.Column<int>(nullable: false),
-                    notes = table.Column<string>(nullable: true)
+                    Quantity = table.Column<int>(nullable: false),
                 },
                 constraints: table =>
                 {

@@ -21,7 +21,7 @@ namespace _666foodDelivery.Models
 
         [Required]
         [Display(Name = "Food Name")]
-        public string FoodName { get; set; }
+        public int FoodID { get; set; }
 
         [Required]
         [Display(Name = "Delivery Time")]
@@ -30,6 +30,6 @@ namespace _666foodDelivery.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "The order must be more than 1")]
         [Display(Name = "Number of Order")]
-        public int quantity { get; set; }
+        public int Quantity { get; set; }
     }
 }
