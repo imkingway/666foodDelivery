@@ -19,6 +19,12 @@ namespace _666foodDelivery.Controllers
             return View();
         }
 
+        public ActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
         public ActionResult Login(string username, string password)
         {
             if (username == "admin" && password == "admin")

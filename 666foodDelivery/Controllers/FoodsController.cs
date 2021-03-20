@@ -160,7 +160,7 @@ namespace _666foodDelivery.Views.Foods
             var temp = new Uri(blobURL).LocalPath;
             string filename = temp.Remove(0, temp.IndexOf('/', 1) + 1);
             CloudBlockBlob blob = container.GetBlockBlobReference(filename);
-            await blob.DeleteAsync();
+            await blob.DeleteIfExistsAsync();
 
             _context.Food.Remove(food);
             await _context.SaveChangesAsync();
