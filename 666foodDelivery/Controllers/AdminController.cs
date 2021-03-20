@@ -103,10 +103,14 @@ namespace _666foodDelivery.Controllers
                 {
                     return View("ViewFeedback", customers);
                 }
+                else
+                {
+                    TempData["Result"] = "There have no relevant result";
+                }
             }
             catch (Exception ex)
             {
-
+                TempData["Result"] = ex.ToString();
             }
             return RedirectToAction("ViewFeedback", "Admin");
         }
