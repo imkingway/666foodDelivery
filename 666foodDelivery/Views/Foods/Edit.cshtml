@@ -61,11 +61,11 @@
                 <label asp-for="BlobURL" class="control-label"></label>
                 @if (@ViewData["BlobUrl"] == null)
                 {
-                    <input asp-for="BlobURL" class="form-control" value="@Model.BlobURL" required readonly />
+                    <input asp-for="BlobURL" class="form-control" value="@Model.BlobURL" required onkeypress="return false;" onkeydown="return false;"/>
                 }
                 else
                 {
-                    <input asp-for="BlobURL" class="form-control" value="@ViewData["BlobUrl"]" required readonly />
+                    <input asp-for="BlobURL" class="form-control" value="@ViewData["BlobUrl"]" required onkeypress="return false;" onkeydown="return false;"/>
                 }
                 <span asp-validation-for="BlobURL" class="text-danger"></span>
             </div>
