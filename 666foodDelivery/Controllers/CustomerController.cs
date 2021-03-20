@@ -18,6 +18,11 @@ namespace _666foodDelivery.Controllers
             return View();
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public ActionResult InsertFeedback(string customername, string feedbackcategory, string customerfeedback)
         {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("appsettings.json");
