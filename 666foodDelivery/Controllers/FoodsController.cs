@@ -175,12 +175,29 @@ namespace _666foodDelivery.Views.Foods
         {
             var food = await _context.Food.FindAsync(id);
 
+            bool check = false;
+            var foodlist = _context.Food.AsNoTracking().ToList();
+            foreach (var url in foodlist)
+            {
+                if (url.ID != id)
+                {
+                    if (url.BlobURL == food.BlobURL)
+                    {
+                        check = true;
+                        break;
+                    }
+                }
+            }
+
             CloudBlobContainer container = GetCloudBlobContainer();
             string blobURL = food.BlobURL;
             var temp = new Uri(blobURL).LocalPath;
             string filename = temp.Remove(0, temp.IndexOf('/', 1) + 1);
             CloudBlockBlob blob = container.GetBlockBlobReference(filename);
-            await blob.DeleteIfExistsAsync();
+            if (check == false)
+            {
+                await blob.DeleteIfExistsAsync();
+            }
 
             _context.Food.Remove(food);
             await _context.SaveChangesAsync();
