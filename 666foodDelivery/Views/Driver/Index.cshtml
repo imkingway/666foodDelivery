@@ -1,56 +1,89 @@
-﻿@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@using Microsoft.AspNetCore.Identity
+@using _666foodDelivery.Areas.Identity.Data
+
+@inject SignInManager<_666foodDeliveryUser> SignInManager
+@inject UserManager<_666foodDeliveryUser> UserManager
+
+@{
+    ViewData["Title"] = "Home Page";
 }
 
-
-
-<div class="container">
-    <img src="https://i.pinimg.com/originals/1f/8d/29/1f8d29d650824a621ac2bae6f9dfd393.jpg" class="ui large bordered rounded image" />
-
-    <div class="container">
-    <h1>samson is sohai</h1>
-    <h2>samson is noob</h2>
-</div>
-    <div class="btn margin-right">
-        <a asp-controller="Foods" asp-action="Index">Add Food</a>
-    </div>
-    <div class="btn">
-        <a asp-controller="Admin" asp-action="ViewFeedback">View Feedback</a>
-    </div>
-</div>
-
-<style>
-    .container {
-        position: relative;
-        width: 50%;
-    }
-
-        .container img {
-            width: 100%;
-            height: auto;
+<div class="ui inverted vertical masthead center aligned segment" style="height: 360px">
+    <div class="ui text container" style="margin-top: 90px">
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <h1 class="ui inverted header">
+                Welcome, @UserManager.GetUserName(User)
+            </h1>
+            <h2>Good Food, Good Mood</h2>
+            <div class="ui huge primary button">
+                <a style="color: white" id="manage" asp-controller="Orders" asp-action="Index">Order Now</a>
+                <i class="right arrow icon">
+                </i>
+            </div>
         }
-
-        .container .btn {
-            position: relative;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            -ms-transform: translate(-50%, -50%);
-            background-color: #f1f1f1;
-            color: white;
-            font-size: 16px;
-            padding: 12px 24px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
+        else
+        {
+            <h1 class="ui inverted header">
+                666 Food Delivery
+            </h1>
+            <h2>Good Food, Good Mood</h2>
+            <div class="ui huge primary button">
+                <a style="color: white" id="register" asp-area="Identity" asp-page="/Account/Login">Order Now</a>
+                <i class="right arrow icon">
+                </i>
+            </div>
         }
+    </div>
+</div>
+<div class="ui divider"></div>
+<div class="ui vertical segment" style="padding: 8em 0em;">
+    <div class="ui container stackable middle aligned grid">
+        <div class="row" style="margin-left: 20px">
+            <div class="eight wide column">
+                <h3 class="ui header">What is 666 Food Delivery</h3>
+                <p>
+                    foodpanda is Malaysia's most convenient online food
+                    ordering site, connecting people with the best restaurants
+                    around them, in Kuala Lumpur! We believe food is a pleasure
+                    and food ordering should be fast and definitely fun experience.
+                </p>
+                <h3 class="ui header">Your favourite food delivered hot and fresh</h3>
+                <p>
+                    Great news! 666FoodDelivery is now in the Grab app,
+                    creating a more seamless experience with your
+                    daily needs in the everyday everything app.<br>
+                    Satisfy your cravings by getting the food you
+                    love from your favourite restaurants.
+                    666FoodDelivery is now available in Klang Vally
+                </p>
+            </div>
+            <div class="six wide right floated column">
+                <img src="https://i.pinimg.com/originals/1f/8d/29/1f8d29d650824a621ac2bae6f9dfd393.jpg" class="ui large bordered rounded image" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="center aligned column">
+                <a class="ui huge button" asp-controller="Home" asp-action="AboutUs">Check Here</a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="ui vertical segment" style="padding: 8em 0em;">
+    <div class="ui stackable internally celled equal width grid">
+        <div class="center aligned row">
+            <div class="column" style="padding-bottom: 5em; padding-top: 5em;">
+                <h3 class="ui header" style="font-size: 2em;margin-left:20px; margin-right:20px">
+                    Eat, drink and live free. There's no telling what happen tomorrow
+                </h3>
+            </div>
+            <div class="column" style="padding-bottom: 5em; padding-top: 5em;">
+                <h3 class="ui header" style="font-size: 2em; margin-left:20px; margin-right:20px">
+                    Dine well and you’ll be able to think well, sleep well, and live well.
+                </h3>
+            </div>
+        </div>
+    </div>
+</div>
 
-            .container .btn:hover {
-                background-color: black;
-            }
 
-                .container .btn:hover .margin-right {
-                    margin-right: 100px;
-                }
-</style>
