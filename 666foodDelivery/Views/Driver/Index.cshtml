@@ -12,15 +12,33 @@
     <div class="ui text container" style="margin-top: 90px">
         @if (SignInManager.IsSignedIn(User))
         {
-            <h1 class="ui inverted header">
-                Welcome, @UserManager.GetUserName(User)
-            </h1>
-            <h2>Good Food, Good Mood</h2>
-            <div class="ui huge primary button">
-                <a style="color: white" id="manage" asp-controller="Orders" asp-action="Index">Order Now</a>
-                <i class="right arrow icon">
-                </i>
-            </div>
+
+            var user = from m in UserManager.Users
+                       where m.UserName.Equals(UserManager.GetUserName(User))
+                       select m.User_Role;
+
+            foreach (string User_Role in user)
+            {
+                if (User_Role == "Customer")
+                {
+                    <h1 class="ui inverted header">
+                        Welcome, @UserManager.GetUserName(User)
+                    </h1>
+                    <h2>Good Food, Good Mood</h2>
+                    <div class="ui huge primary button">
+                        <a style="color: white" id="manage" asp-controller="Orders" asp-action="Index">Order Now</a>
+                        <i class="right arrow icon">
+                        </i>
+                    </div>
+                }
+                else if (User_Role == "Driver")
+                {
+                    <h1 class="ui inverted header">
+                        Welcome, @UserManager.GetUserName(User)
+                    </h1>
+                    <h2>Good Food, Good Mood</h2>
+                }
+            }
         }
         else
         {
