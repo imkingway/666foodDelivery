@@ -34,7 +34,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="ui container" style="min-height : 750px">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
@@ -58,13 +58,17 @@
 
 <style>
   .ui.footer.form-page { /* Increased specificity for SO snippet priority */
-    position: fixed;
+    position: absolute;
     bottom: 0;
-    width: 100%;}
+    width: 100%;
+  }
   .footer  {
       position: fixed;
       left: 0;
       bottom: 0;
       width: 100%;
   }
+@*.ui.container {
+    min-height : 600px;
+}*@
 </style>
