@@ -44,7 +44,7 @@ namespace _666foodDelivery.Views.Orders_SB
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index([Bind("CustomerName, Address, PhoneNumber, FoodName, DeliverTime, Quantity")]Order order)
+        public async Task<ActionResult> Index(Order order)
         {
             QueueClient queue = new QueueClient(ServiceBusConnectionString, QueueName);
             if (ModelState.IsValid)

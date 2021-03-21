@@ -21,7 +21,7 @@ namespace _666foodDelivery.Models
 
         [Required]
         [Display(Name = "Food Name")]
-        public int FoodID { get; set; }
+        public string FoodName { get; set; }
 
         [Required]
         [Display(Name = "Delivery Time")]
