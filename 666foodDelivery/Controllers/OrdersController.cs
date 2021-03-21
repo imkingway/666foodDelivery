@@ -85,15 +85,18 @@ namespace _666foodDelivery.Views.Orders_SB
             List<Order> messages = new List<Order>();
             List<long> sequence = new List<long>();
             MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
-                for (int i = 0; i < queue.MessageCount; i++)
+            for (int i = 0; i < queue.MessageCount; i++)
                 {
                     Message message = await messageReceiver.PeekAsync();
                     Order result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
                     sequence.Add(message.SystemProperties.SequenceNumber);
                     messages.Add(result);
+                Console.WriteLine(result);
                 }
+
             ViewBag.sequence = sequence;
             ViewBag.messages = messages;
+
 
             return View();
         }
@@ -119,9 +122,6 @@ namespace _666foodDelivery.Views.Orders_SB
                 }
                 
             }
-
-            Console.Write(result);
-
 
             return View();
         }
