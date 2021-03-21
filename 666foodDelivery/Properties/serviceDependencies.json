@@ -15,6 +15,13 @@
     "storage1": {
       "type": "storage",
       "connectionId": "666fooddeliverystorage"
+    },
+    "secrets1": {
+      "type": "secrets"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING"
     }
   }
 }

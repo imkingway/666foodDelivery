@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>_666foodDelivery</RootNamespace>
     <UserSecretsId>8914fbf0-88e9-4a1a-b83f-d336c9ef0956</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/9a964659-79cb-4d0f-a4a7-a6ece2321a8a/resourceGroups/ddac/providers/microsoft.insights/components/666fooddelivery</ApplicationInsightsResourceId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,6 +13,7 @@
     <PackageReference Include="Azure.Storage.Blobs" Version="12.3.0" />
     <PackageReference Include="Azure.Storage.Files.Shares" Version="12.1.0" />
     <PackageReference Include="Azure.Storage.Queues" Version="12.2.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.12" />
     <PackageReference Include="Microsoft.Azure.Management.ServiceBus" Version="2.1.0" />

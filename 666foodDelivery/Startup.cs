@@ -39,6 +39,7 @@ namespace _666foodDelivery
                 builder.AddBlobServiceClient(Configuration["ConnectionStrings:666fooddeliverystorage:blob"], preferMsi: true);
                 builder.AddQueueServiceClient(Configuration["ConnectionStrings:666fooddeliverystorage:queue"], preferMsi: true);
             });
+            services.AddApplicationInsightsTelemetry(Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

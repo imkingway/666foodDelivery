@@ -21,10 +21,13 @@
       "secretStore": "LocalSecretsFile"
     },
     "secrets1": {
-      "type": "secrets",
-      "connectionId": "",
-      "suggestion": "true",
-      "ignored": "true"
+      "type": "secrets.user"
+    },
+    "appInsights1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/666fooddelivery",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING",
+      "secretStore": "LocalSecretsFile"
     }
   }
 }
