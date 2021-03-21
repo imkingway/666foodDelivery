@@ -8,6 +8,9 @@ namespace _666foodDelivery.Models
 {
     public class Order
     {
+        [Key]
+        public int ID { get; set; }
+
         [Required]
         [Display(Name = "Name")]
         public string CustomerName { get; set; }

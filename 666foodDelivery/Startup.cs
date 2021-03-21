@@ -33,7 +33,7 @@ namespace _666foodDelivery
             services.AddRazorPages();
 
             services.AddDbContext<_666foodDeliveryNewContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("_666foodDeliveryNewContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("_666foodDeliveryContextConnection")));
             services.AddAzureClients(builder =>
             {
                 builder.AddBlobServiceClient(Configuration["ConnectionStrings:666fooddeliverystorage:blob"], preferMsi: true);

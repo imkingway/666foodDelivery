@@ -2,12 +2,12 @@
 @{
     ViewData["Title"] = "Received Orders";
 }
-
+@model IEnumerable<_666foodDelivery.Models.Order>
 <h1>Available Orders</h1>
 
 <table border="1">     
     <tr>
-        <th>No.</th>
+        
         <th>Customer Name</th>
         <th>Address</th>
         <th>PhoneNumber</th>
@@ -17,9 +17,9 @@
         <th>Accept</th>
     </tr>     
     @{int i = 0;}     
-    @foreach (var order in ViewBag.messages)
+    @foreach (var order in Model)
 {<tr>
-    <td>@ViewBag.sequence[i]</td>
+    
     <td>@order.CustomerName</td>
     <td>@order.Address</td>
     <td>@order.PhoneNumber</td>
@@ -27,8 +27,8 @@
     <td>@order.DeliverTime</td>
     <td>@order.Quantity</td>
     <td>
-       
-        <a asp-route-sequence="@ViewBag.sequence[i]" asp-route-customerData="@order"  asp-controller="Orders" asp-action="Approve">
+        @*asp-route-customerName="@order.CustomerName" asp-route-address="@order.Address" asp-route-phoneNumber="@order.PhoneNumber" asp-route-foodName="@order.FoodName" asp-route-deliverTime="@order.DeliverTime" asp-route-quantity="@order.Quantity"*@
+        <a asp-route-id="@order.ID" asp-controller="Orders" asp-action="AcceptOrder">
             <button>Accept Orders</button>
         </a>
     </td>

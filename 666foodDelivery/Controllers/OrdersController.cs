@@ -13,6 +13,9 @@ using Newtonsoft.Json;
 using Microsoft.Azure.ServiceBus.Core;
 using _666foodDelivery.Data;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using _666foodDelivery.Entities.Data;
+using _666foodDelivery.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace _666foodDelivery.Views.Orders_SB
 {
@@ -23,9 +26,11 @@ namespace _666foodDelivery.Views.Orders_SB
         const string QueueName = "foodorder";
 
         private readonly _666foodDeliveryNewContext _context;
+        private readonly UserManager<_666foodDeliveryUser> _userManager;
 
-        public OrdersController(_666foodDeliveryNewContext _context)
+        public OrdersController(_666foodDeliveryNewContext _context, UserManager<_666foodDeliveryUser> userManager)
         {
+            _userManager = userManager;
             this._context = _context;
         }
 
@@ -44,11 +49,12 @@ namespace _666foodDelivery.Views.Orders_SB
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Index(Order order)
+        public async Task<ActionResult> Index([Bind("CustomerName, Address, PhoneNumber, FoodName, DeliverTime, Quantity")] Order order)
         {
             QueueClient queue = new QueueClient(ServiceBusConnectionString, QueueName);
             if (ModelState.IsValid)
             {
+                order.DeliverTime = DateTime.Now;
                 var orderJSON = JsonConvert.SerializeObject(order);
                 var message = new Message(Encoding.UTF8.GetBytes(orderJSON))
                 {
@@ -56,6 +62,17 @@ namespace _666foodDelivery.Views.Orders_SB
                     ContentType = "application/json"
                 };
                 await queue.SendAsync(message);
+                order order1 = new order();
+
+                //order1.CustomerName = order.CustomerName;
+                //order1.Address = order.Address;
+                //order1.PhoneNumber = order.PhoneNumber;
+                //order1.FoodName = order.FoodName;
+                //order1.DeliverTime = order.DeliverTime;
+                //order1.Quantity = order.Quantity;
+                //_context.Order.AddRange(order);
+                //_context.SaveChanges();
+
                 return RedirectToAction("Index", "Orders", new { });
             }
             return View(order);
@@ -78,52 +95,88 @@ namespace _666foodDelivery.Views.Orders_SB
             CreateQueueFunctionAsync().GetAwaiter().GetResult();
         }
 
-        public async Task<ActionResult> ReceivedOrders()
+        public IActionResult ReceivedOrders()
         {
-            var managementClient = new ManagementClient(ServiceBusConnectionString);
-            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
-            List<Order> messages = new List<Order>();
-            List<long> sequence = new List<long>();
-            MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
-            for (int i = 0; i < queue.MessageCount; i++)
-                {
-                    Message message = await messageReceiver.PeekAsync();
-                    Order result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
-                    sequence.Add(message.SystemProperties.SequenceNumber);
-                    messages.Add(result);
-                Console.WriteLine(result);
-                }
+            Job asd = _context.Job.Where(x => x.DriverID.Equals(_userManager.GetUserId(User))).FirstOrDefault();
+            if (asd != null)
+            {
+                return RedirectToAction("Accept", "Orders");
+            }
+            else
+            {
 
-            ViewBag.sequence = sequence;
-            ViewBag.messages = messages;
-
-
-            return View();
+            }
+            var OrderList = _context.Order.ToList();
+            var asdasd = _context.Food.ToList();
+            return View(OrderList);
         }
 
-        public async Task<ActionResult> Approve(long sequence, Order customerData)
-        {   
-            //connect to the same queue             
-            var managementClient = new ManagementClient(ServiceBusConnectionString);
-            var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
-            //receive the selected message             
-            MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
-            Order result = null;
-            for (int i = 0; i < queue.MessageCount; i++)
-            {
-                Message message = await messageReceiver.ReceiveAsync();
-                string token = message.SystemProperties.LockToken;
-                //to find the selected message - read and remove from the queue                 
-                if (message.SystemProperties.SequenceNumber == sequence)
-                {
-                    result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));               
-                    await messageReceiver.CompleteAsync(token);
-                    break;
-                }
-                
-            }
+        //public async Task<ActionResult> ReceivedOrders()
+        //{
+        //    var managementClient = new ManagementClient(ServiceBusConnectionString);
+        //    var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+        //    List<Order> messages = new List<Order>();
+        //    List<long> sequence = new List<long>();
+        //    MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
+        //    for (int i = 0; i < queue.MessageCount; i++)
+        //    {
+        //        Message message = await messageReceiver.PeekAsync();
+        //        Order result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
+        //        sequence.Add(message.SystemProperties.SequenceNumber);
+        //        messages.Add(result);
+        //        Console.WriteLine(result);
+        //    }
 
-            return View();
+        //    ViewBag.sequence = sequence;
+        //    ViewBag.messages = messages;
+
+
+        //    return View();
+        //}
+
+        public async Task<ActionResult> AcceptOrder(string id)
+        {
+            //string customerName, string address, string phoneNumber, string foodName, string deliverTime, string quantity
+
+            ////connect to the same queue             
+            //var managementClient = new ManagementClient(ServiceBusConnectionString);
+            //var queue = await managementClient.GetQueueRuntimeInfoAsync(QueueName);
+            ////receive the selected message             
+            //MessageReceiver messageReceiver = new MessageReceiver(ServiceBusConnectionString, QueueName);
+            //Order result = null;
+            //for (int i = 0; i < queue.MessageCount; i++)
+            //{
+            //    Message message = await messageReceiver.ReceiveAsync();
+            //    string token = message.SystemProperties.LockToken;
+            //    string token = message.SystemProperties.LockToken;
+            //    //to find the selected message - read and remove from the queue                 
+            //    if (message.SystemProperties.SequenceNumber == sequence)
+            //    {
+            //        result = JsonConvert.DeserializeObject<Order>(Encoding.UTF8.GetString(message.Body));
+            //        await messageReceiver.CompleteAsync(token);
+            //        break;
+            //    }
+
+            //}
+            Order order = _context.Order.Where(x => x.ID.Equals(int.Parse(id))).FirstOrDefault();
+            Job job = new Job { 
+                DriverID = _userManager.GetUserId(User),
+                CustomerName = order.CustomerName,
+                Address = order.Address,
+                PhoneNumber = order.PhoneNumber,
+                FoodName = order.FoodName,
+                DeliverTime = order.DeliverTime.ToString(),
+                Quantity = order.Quantity.ToString()
+            };
+            _context.Job.AddRange(job);
+            _context.Order.RemoveRange(order);
+            _context.SaveChanges();
+            return RedirectToAction("Accept","Orders");
+        }
+
+        public IActionResult Accept() {
+            Job list = _context.Job.Where(X => X.DriverID.Equals(_userManager.GetUserId(User))).FirstOrDefault();
+            return View(list);
         }
 
         public async Task<ActionResult> Job(long sequence)
@@ -147,6 +200,18 @@ namespace _666foodDelivery.Views.Orders_SB
                 }
             }
             return View();
+        }
+
+        public IActionResult Finish(string id) {
+            if (id.Equals(string.Empty)) {
+                return BadRequest();
+            }
+            else {
+                Job job = _context.Job.Where(x => x.DriverID.Equals(id)).FirstOrDefault();
+                _context.Job.RemoveRange(job);
+                _context.SaveChanges();
+                return RedirectToAction("Index","Driver", new { response="success"});
+            }
         }
     }
 }

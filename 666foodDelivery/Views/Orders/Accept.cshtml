@@ -1,0 +1,58 @@
+﻿@model _666foodDelivery.Models.Job
+
+@{
+    ViewData["Title"] = "Accepted";
+}
+
+<h1>Accepted</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FoodName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeliverTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.CustomerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.PhoneNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.FoodName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.DeliverTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => modelItem.Quantity)
+            </td>
+            <td>
+                <a asp-action="Finish" asp-route-id="@Model.DriverID">Finish</a>
+            </td>
+        </tr>
+    </tbody>
+</table>

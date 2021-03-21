@@ -99,4 +99,11 @@
     </div>
 </div>
 
+<script>
+    const URL = new URLSearchParams(window.location.search);
+    const getParam = URL.get('response'); 
+    if (getParam == "success") {
+        alert("The job is completed");
+    }
+</script>
 

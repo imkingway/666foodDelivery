@@ -29,7 +29,7 @@
             <td>@order.DeliverTime</td>
             <td>@order.Quantity</td>
             <td>
-                <a asp-route-sequence="@ViewBag.sequence[i]" asp-controller="Orders" asp-action="ReceivedOrders">
+                <a asp-controller="Orders" asp-action="ReceivedOrders">
                     <button>Approve</button>
                 </a>
             </td>

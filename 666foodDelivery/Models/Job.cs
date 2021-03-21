@@ -36,6 +36,6 @@ namespace _666foodDelivery.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "The order must be more than 1")]
         [Display(Name = "Number of Order")]
-        public string quantity { get; set; }
+        public string Quantity { get; set; }
     }
 }
